@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
         else
             Log.d("Loaded","error");
         setContent {
+//            Communicator
             ImageSendAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(

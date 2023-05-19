@@ -5,7 +5,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +18,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.imagesendapp.ImageTransformer
-
+val reset = MutableList(190) { MutableList(168) { 0 }.toList() }.toList()
 @Composable
 fun RequestContentPermission() {
     var imageUri by remember {
@@ -67,6 +66,7 @@ fun RequestContentPermission() {
             Button(onClick = {
                 ImageTransformer.resetMat();
                 bitmap.value = ImageTransformer.getImage()
+                sendData(reset)
             }) {
                 Text(text = "reset")
             }
@@ -83,10 +83,22 @@ fun RequestContentPermission() {
                 Text(text = "encode")
             }
             Button(onClick = {
-                ImageTransformer.toEspRegister();
-                Toast.makeText(context, "klaar met transformen", Toast.LENGTH_LONG).show()
+//                ImageTransformer.toEspRegister();
+                sendData()
+                Toast.makeText(context, "send dummies", Toast.LENGTH_LONG).show()
             }) {
-                Text(text = "esp")
+                Text(text = "send dummy")
+            }
+            Button(onClick = {
+                ImageTransformer.encodeImage();
+                sendData(
+                    ImageTransformer
+                        .toEspRegister()
+                )
+                Toast.makeText(context, "encode en getransformeert en verzonden", Toast.LENGTH_SHORT).show()
+                bitmap.value = ImageTransformer.getImage()
+            }) {
+                Text(text = "send god button")
             }
         }
         Spacer(modifier = Modifier.height(12.dp))

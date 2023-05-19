@@ -3,6 +3,7 @@ package com.example.imagesendapp
 import android.graphics.Bitmap
 import android.util.Log
 import com.example.imagesendapp.ImageTransformer.bmp
+import com.example.imagesendapp.ui.theme.cols
 import org.opencv.android.Utils
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
@@ -43,7 +44,7 @@ object ImageTransformer {
         )
         polar.convertTo(mat, CvType.CV_8U)
     }
-    fun changeResolution(ampitude: Int = 98, angular: Int = 10, reset: Boolean = false){
+    fun changeResolution(ampitude: Int = 98, angular: Int = 190, reset: Boolean = false){
         if (reset) resetMat();
         val img = Mat()
         val newDim = Size(ampitude.toDouble(), angular.toDouble())
@@ -94,6 +95,7 @@ object ImageTransformer {
                 }
             }
             bitmap.add(registers.toList())
+//            bitmap.add(registers.subList(0, 20).toList())
             Log.d("reg",registers.toString())
         }
         Log.d("esp", bitmap.toString())
