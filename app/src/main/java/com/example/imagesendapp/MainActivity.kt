@@ -43,30 +43,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Composable
-fun sendButton() {
-    val mContext = LocalContext.current
-    Button(onClick = {espSend(mContext)}){
-        Text(text = "Click", color = Color.White)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ImageSendAppTheme {
-        Greeting("Android")
-    }
-}
-
-fun espSend(context: Context){
-    // hier komt de zend data functie
-    // die context mag overal das was om snel te testen of de knop iets deed
-    Toast.makeText(context, "In deze funtie stuur je de data", Toast.LENGTH_LONG).show()
-}
