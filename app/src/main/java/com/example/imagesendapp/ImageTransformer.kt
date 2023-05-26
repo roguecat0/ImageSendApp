@@ -13,22 +13,19 @@ import java.io.File
 import java.util.*
 import kotlin.math.pow
 
-
+// object om de Transformatie data van de app constant te houden doorheen de app
 object ImageTransformer {
     private var mat = Mat();
     private var prevMat = Mat();
     var conf = Bitmap.Config.ARGB_8888 // see other conf types
     var bmp = Bitmap.createBitmap(10, 10, conf)
-
+    // converteert bitmap foto naar opencv Mat()
     fun setImage(bitmap: Bitmap){
         this.bmp = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         Utils.bitmapToMat(bmp,mat);
         mat.copyTo(prevMat)
     }
-    fun toGrayScale(reset: Boolean = false){
-        if (reset) resetMat();
-        Imgproc.cvtColor(mat,mat,Imgproc.COLOR_RGB2GRAY)
-    }
+    // converteert foto naar van x,y naar polaire coordinaten
     fun toPolar(reset: Boolean = false){
         if (reset) resetMat();
         val img = Mat()
@@ -46,6 +43,7 @@ object ImageTransformer {
         )
         polar.convertTo(mat, CvType.CV_8U)
     }
+    // veranderd de resolutie naar die met de juiste hoeveelheid leds en SLICES
     fun changeResolution(ampitude: Int = LEDS, angular: Int = SLICES, reset: Boolean = false){
         if (reset) resetMat();
         val img = Mat()
@@ -57,11 +55,13 @@ object ImageTransformer {
             img.copyTo(mat)
         }
     }
+    // polar en resize te samen
     fun encodeImage(reset: Boolean = false){
         if (reset) resetMat();
         toPolar();
         changeResolution();
     }
+    // verander de de foto naar een form die makkelijker word uitgelezen door de esp
     fun toEspRegister(): List<List<Int>> {
         val image = Mat()
         Imgproc.cvtColor(mat,image,Imgproc.COLOR_RGB2BGR)
@@ -97,12 +97,12 @@ object ImageTransformer {
                 }
             }
             bitmap.add(registers.toList())
-//            bitmap.add(registers.subList(0, 20).toList())
             Log.d("reg",registers.toString())
         }
         Log.d("esp", bitmap.toString())
         return bitmap.toList()
     }
+    // converteerd de Mat terug naar een bitmap om het op het scherm te tonen
     fun getImage() : Bitmap{
         mat.convertTo(mat, CvType.CV_8U)
         bmp = Bitmap.createBitmap(mat.cols(), mat.rows(), conf)
@@ -113,6 +113,7 @@ object ImageTransformer {
         prevMat.copyTo(mat)
     }
 }
+// veranderd een getal naar een int array die zijn binaire waarde representeerd
 fun toBitArray(number: Int) : Array<Int> {
     var x = Integer.toBinaryString(number)
     for(i in 0..(7-x.length))
@@ -120,6 +121,7 @@ fun toBitArray(number: Int) : Array<Int> {
     return x.toCharArray().map {
         it.digitToInt() }.toTypedArray()
 }
+// haalt de een colom uit een 2 dimentionele Array<Int> met als stap groote x
 fun getColumn(matrix: Array<Array<Int>>, columnIndex: Int, startingRow: Int, x: Int): Array<Int> {
     if (columnIndex >= 0 && columnIndex < matrix[0].size) {
         val column = mutableListOf<Int>()
@@ -136,6 +138,7 @@ fun getColumn(matrix: Array<Array<Int>>, columnIndex: Int, startingRow: Int, x: 
         throw IndexOutOfBoundsException("Invalid column index")
     }
 }
+// berekend het inwendig product van 2 Array<Int>'s
 fun dotProduct(arr1: Array<Int>, arr2: Array<Int>): Int {
     require(arr1.size == arr2.size) { "Arrays must have the same length" }
 

@@ -27,6 +27,7 @@ import com.example.imagesendapp.Constants
 import com.example.imagesendapp.Constants.SLICES
 import com.example.imagesendapp.ImageTransformer
 
+// app homescreen
 val reset = MutableList(SLICES) { MutableList(168) { 0 }.toList() }.toList()
 @Composable
 fun RequestContentPermission() {
@@ -66,6 +67,7 @@ fun RequestContentPermission() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
+            // toond de foto als er 1 is ingeladen
             imageUri?.let {
 //            Log.d("uri1","uri1: "+it.toString()+"uri2: "+prevUri?.toString())
                 if (prevUri == it){
@@ -98,12 +100,14 @@ fun RequestContentPermission() {
             }
             Spacer(modifier = Modifier.height(30.dp))
             Row(){
+                // knop om de foto uit de gallery te halen
                 Button(onClick = {
                     launcher.launch("image/*")
                 }) {
                     Text(text = "Pick image")
                 }
                 Spacer(modifier = Modifier.width(10.dp))
+                // knop om de te transormeren en door te sturen
                 Button(onClick = {
                     ImageTransformer.encodeImage();
                     sendData(
@@ -116,6 +120,7 @@ fun RequestContentPermission() {
                     Text(text = "send encoded")
                 }
                 Spacer(modifier = Modifier.width(10.dp))
+                // knop om de hoek door te sturen
                 Button(onClick = {
                     sendAngle(angle.value.toInt())
                     Toast.makeText(context, "hoek gestuurd", Toast.LENGTH_SHORT).show()
@@ -130,6 +135,7 @@ fun RequestContentPermission() {
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(text = "angle: ${angle.value.toInt()}")
                 Spacer(modifier = Modifier.width(10.dp))
+                // bepaald de hoek de zal worden doorgestuurd
                 Slider(
                     modifier = Modifier.fillMaxWidth(),
                     steps = SLICES,
@@ -140,55 +146,6 @@ fun RequestContentPermission() {
                     },
                 )
             }
-
-//        Spacer(modifier = Modifier.height(12.dp))
-//        Row(){
-//            Button(onClick = {
-//                ImageTransformer.resetMat();
-//                bitmap.value = ImageTransformer.getImage()
-//                sendData(reset)
-//            }) {
-//                Text(text = "reset")
-//            }
-//            Button(onClick = {
-//                ImageTransformer.changeResolution();
-//                bitmap.value = ImageTransformer.getImage()
-//            }) {
-//                Text(text = "res")
-//            }
-//            Button(onClick = {
-//                ImageTransformer.encodeImage();
-//                bitmap.value = ImageTransformer.getImage()
-//            }) {
-//                Text(text = "encode")
-//            }
-//            Button(onClick = {
-//                sendData()
-//                Toast.makeText(context, "send dummies", Toast.LENGTH_LONG).show()
-//            }) {
-//                Text(text = "send dummy")
-//            }
-//            Button(onClick = {
-//                sendData(
-//                    ImageTransformer
-//                        .toEspRegister()
-//                )
-//                Toast.makeText(context, "getransformeert en verzonden", Toast.LENGTH_SHORT).show()
-//            }) {
-//                Text(text = "send as bitmap")
-//            }
-//            Button(onClick = {
-//                ImageTransformer.toPolar()
-//                bitmap.value = ImageTransformer.getImage()
-//            }) {
-//                Text(text = "polarize")
-//            }
-//
-//        }
-
-
-
-
         }
 
     }

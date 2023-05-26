@@ -12,10 +12,10 @@ import java.net.URI
 val cols = LEDS
 val rows = SLICES
 val dummyValues = MutableList(rows) { i -> MutableList(cols) { j -> (i * cols + j) }.toList() }.toList()
-
+// stuurt data in de vorm van die de registers die de lijst kunnen door
 fun sendData(bitmap: List<List<Int>> = dummyValues){
     val host = URI("ws://192.168.4.1/ws")
-
+    // bij het openen van de connect word lijn per een lijst van de waardes doorgestuurd
     val client = object : WebSocketClient(host) {
         override fun onOpen(handshakedata: ServerHandshake?) {
             Log.d("COMS","handshake done")
@@ -54,9 +54,10 @@ fun sendData(bitmap: List<List<Int>> = dummyValues){
     client.connect()
     Log.d("COMS","finnished trying to connect")
 }
+// stuurt de hoek door waarmee de foto hoort te draaien
+// word niet gebruikt
 fun sendAngle(angle: Int){
     val host = URI("ws://192.168.4.1/ws")
-//    Log.d("COMS","pre connect {angle:$angle}")
     val client = object : WebSocketClient(host) {
         override fun onOpen(handshakedata: ServerHandshake?) {
             Log.d("COMS","{angle:$angle}")
